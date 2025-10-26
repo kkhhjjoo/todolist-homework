@@ -58,7 +58,7 @@ const todoList = [
         <br>
         <textarea placeholder="메모 작성...">${todo.memo || ''}</textarea>
       `;
-      ul.insertBefore(li,ul.firstChild);
+      ul.appendChild(li);
 
       // ✅ 완료 토글
       li.querySelector('.title').addEventListener('click', () => {
