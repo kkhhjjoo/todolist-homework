@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="todo">
+    <header>
+      <h1>Todo List - 목록 조회 🙂</h1>
+    </header>
+    <div id="main">
+      <div id="container">
+        <ul>
+          <li>
+            <h2>쇼핑 목록</h2>
+            <!-- 새로운 할일 입력 폼 -->
+            <div class="todoinput">
+              <input type="text" autofocus>
+              <button type="button">추가</button>
+            </div>
+            <div class="search">
+              <input type="text" id="searchInput" placeholder="검색어를 입력하세요" />
+            </div>
+            <!-- 할일 목록이 표시되는 영역 -->
+            <ul class="todolist">
+              <!-- <li data-no="1 data-done="true">
+                <span>1</span>
+                <span><s>샘플1</s></span>
+                <button type="button">삭제</button>
+              </li>
+              <li data-no="2" data-done="true">
+                <span>2</span>
+                <span><s>샘플2</s></span>
+                <button type="button">삭제</button>
+              </li>
+              <li data-no="3" data-done="false">
+                <span>3</span>
+                <span>샘플3</span>
+                <button type="button">삭제</button>
+              </li> -->
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <footer>
+      <p>멋쟁이 사자처럼 FrontEnd BootCamp 15기 - 김현주</p>
+    </footer>
+  </div>
+
+  <script src="ex05-05.js"></script>
+</body>
+</html>

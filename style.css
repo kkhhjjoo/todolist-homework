@@ -1,0 +1,364 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #4c51bf; /* 짙은 보라색/남색 계열 */
+  --secondary-color: #805ad5; /* 밝은 보라색 계열 */
+  --accent-color: #63b3ed; /* 하늘색 계열 */
+  --text-color: #1f2937;
+  --light-bg-color: rgba(255, 255, 255, 0.7);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --glass-blur: blur(10px);
+}
+
+body {
+  font-family: 'SF Pro Display', 'Pretendard', 'Noto Sans KR', sans-serif;
+  /* 배경 그라데이션 변경: 좀 더 생동감 있고 깊은 색상 */
+  background: linear-gradient(135deg, #4c51bf 0%, #805ad5 100%); 
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px;
+}
+
+#todo {
+  width: 100%;
+  max-width: 650px;
+}
+
+header {
+  margin-bottom: 40px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  /* 제목 그라데이션 색상 변경 */
+  background: linear-gradient(45deg, #a7f3d0, #34d399, #059669);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+#container {
+  /* 유리모피즘 스타일 적용 */
+  backdrop-filter: var(--glass-blur) saturate(180%);
+  -webkit-backdrop-filter: var(--glass-blur) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.2); /* 더 투명하게 */
+  border: var(--glass-border);
+  border-radius: 28px; /* 더 둥근 모서리 */
+  box-shadow: var(--glass-shadow);
+  padding: 40px;
+  color: var(--text-color);
+}
+
+#container > ul {
+  list-style: none;
+}
+
+#container > ul > li > h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--text-color);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* 할 일 추가 입력 */
+.todoinput {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.todoinput input {
+  flex: 1;
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: var(--glass-border);
+  background: rgba(255, 255, 255, 0.85); /* 약간 불투명 */
+  font-size: 1.1rem;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 부드러운 전환 */
+  color: var(--text-color);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.todoinput input:focus {
+  background: white;
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3),
+              0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.todoinput button {
+  /* 버튼 그라데이션 및 입체감 강화 */
+  background: linear-gradient(135deg, var(--accent-color), #2b6cb0);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 16px 28px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 6px 20px rgba(99, 179, 237, 0.4);
+}
+
+.todoinput button:hover {
+  background: linear-gradient(135deg, #2b6cb0, var(--accent-color));
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(99, 179, 237, 0.5);
+}
+
+.todoinput button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(99, 179, 237, 0.3);
+}
+
+/* 검색창 */
+.search {
+  margin-bottom: 28px;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: var(--glass-border);
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  color: var(--text-color);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+#searchInput:focus {
+  background: white;
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3),
+              0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+/* 할 일 목록 */
+.todolist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 간격 늘림 */
+}
+
+.todolist li {
+  /* 유리모피즘 목록 항목 */
+  backdrop-filter: var(--glass-blur) saturate(180%);
+  -webkit-backdrop-filter: var(--glass-blur) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.3); /* 더 투명하고 밝게 */
+  border: var(--glass-border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.todolist li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.45);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.todolist li .title {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.25rem; /* 폰트 크기 키움 */
+  color: var(--text-color);
+  transition: all 0.2s ease;
+  user-select: none;
+  line-height: 1.5;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.todolist li .title:hover {
+  color: var(--primary-color);
+  transform: translateX(4px);
+}
+
+.todolist li .title s {
+  color: #9ca3af;
+  text-decoration-color: #f56565;
+  text-decoration-thickness: 2px;
+}
+
+/* 상태 선택 */
+.todolist li select {
+  width: fit-content;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  color: #4b5563;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.todolist li select:hover {
+  background: white;
+  border-color: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 삭제 버튼 */
+.todolist li .del {
+  /* 삭제 버튼 디자인 변경 */
+  background: linear-gradient(135deg, #f56565, #e53e3e);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 10px rgba(245, 101, 101, 0.4);
+}
+
+.todolist li .del:hover {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 101, 101, 0.5);
+}
+
+.todolist li .del:active {
+  transform: translateY(0);
+}
+
+/* 메모 영역 */
+.todolist li textarea {
+  width: 100%;
+  min-height: 80px; /* 높이 늘림 */
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: all 0.3s ease;
+  color: #374151;
+  line-height: 1.7;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.todolist li textarea:focus {
+  background: white;
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3),
+              inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 푸터 */
+footer {
+  margin-top: 40px;
+  text-align: center;
+}
+
+footer p {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1rem;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  body {
+    padding: 30px 16px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  #container {
+    padding: 30px 24px;
+  }
+
+  #container > ul > li > h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  #container {
+    padding: 24px 20px;
+    border-radius: 24px;
+  }
+
+  .todoinput {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .todoinput input, .todoinput button {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  .todolist li {
+    padding: 20px;
+    gap: 10px;
+  }
+
+  .todolist li .title {
+    font-size: 1.15rem;
+  }
+}
+
+/* 스크롤바 스타일링 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
