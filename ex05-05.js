@@ -1,4 +1,4 @@
-// ✅ LocalStorage와 동기화되는 TodoList
+// ✅ LocalStorage key
 const STORAGE_KEY = 'todoList';
 
 // ✅ LocalStorage에서 불러오기
@@ -7,7 +7,7 @@ function loadTodos() {
   if (saved) {
     return JSON.parse(saved);
   } else {
-    // 기본값 (최초 실행 시)
+    // ✅ 기본값 (최초 실행 시)
     const defaultTodos = [
       { id: 1, title: 'JavaScript 공부', done: true, status: '마감', memo: '배열 메서드 복습' },
       { id: 2, title: 'React 공부', done: false, status: '진행중', memo: '컴포넌트 props 실습' },
@@ -48,6 +48,7 @@ function filter() {
 function render(list = todoList) {
   ul.innerHTML = '';
 
+  // defaultTodos 순서대로 렌더링 (기존처럼 appendChild)
   list.forEach((todo) => {
     const li = document.createElement('li');
     li.innerHTML = `
@@ -61,7 +62,7 @@ function render(list = todoList) {
       <br>
       <textarea placeholder="메모 작성...">${todo.memo || ''}</textarea>
     `;
-    ul.appendChild(li);
+    ul.appendChild(li); // 기본 목록은 순서대로 표시
 
     // ✅ 완료 토글
     li.querySelector('.title').addEventListener('click', () => {
@@ -105,10 +106,51 @@ function addTodo() {
     memo: '',
   };
 
+  // 배열에는 뒤에 넣되, 화면에는 맨 위에 표시되게 insertBefore 사용
   todoList.push(newTodo);
   saveTodos();
+
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <span class="title">${newTodo.title}</span>
+    <select>
+      <option value="시작 전" selected>시작 전</option>
+      <option value="진행중">진행중</option>
+      <option value="마감">마감</option>
+    </select>
+    <button class="del">삭제</button>
+    <br>
+    <textarea placeholder="메모 작성..."></textarea>
+  `;
+
+  // ✅ 새 항목은 맨 위에 추가
+  ul.insertBefore(li, ul.firstElementChild);
+
   input.value = '';
-  render(filter());
+
+  // ✅ 새로 추가된 li에도 이벤트 연결
+  li.querySelector('.title').addEventListener('click', () => {
+    newTodo.done = !newTodo.done;
+    saveTodos();
+    render(filter());
+  });
+
+  li.querySelector('select').addEventListener('change', (e) => {
+    newTodo.status = e.target.value;
+    saveTodos();
+  });
+
+  li.querySelector('.del').addEventListener('click', () => {
+    const idx = todoList.indexOf(newTodo);
+    todoList.splice(idx, 1);
+    saveTodos();
+    render(filter());
+  });
+
+  li.querySelector('textarea').addEventListener('input', (e) => {
+    newTodo.memo = e.target.value;
+    saveTodos();
+  });
 }
 
 // ✅ 이벤트 바인딩
